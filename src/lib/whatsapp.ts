@@ -1,4 +1,4 @@
-export const WHATSAPP_NUMBER = "573001234567"; // cambia por tu número
+export const WHATSAPP_NUMBER = "573006764605"; // cambia por tu número
 
 export const DEFAULT_MESSAGE = "Hola, quiero hacer un pedido 🍔";
 
