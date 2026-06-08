@@ -1,0 +1,20 @@
+---
+import { buildWhatsAppUrl, DEFAULT_MESSAGE } from '@/lib/whatsapp'
+import WhatsAppIcon from '@/components/WhatsAppIcon.astro'
+
+const waUrl = buildWhatsAppUrl(DEFAULT_MESSAGE)
+---
+<a
+  href={waUrl}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Pedir por WhatsApp"
+  class="group fixed bottom-5 right-5 z-50 flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-3 text-sm font-semibold text-black shadow-lg shadow-[#25D366]/30 transition-transform hover:scale-105 active:scale-95 sm:bottom-6 sm:right-6"
+>
+  <WhatsAppIcon class="h-6 w-6" />
+  <span class="hidden sm:inline">Pedir ahora</span>
+  <span class="absolute -right-1 -top-1 flex h-3 w-3">
+    <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#25D366] opacity-75"></span>
+    <span class="relative inline-flex h-3 w-3 rounded-full bg-[#25D366]"></span>
+  </span>
+</a>

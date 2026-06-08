@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SiteHeader from '../components/SiteHeader.tsx';
+import Hero from '../components/Hero.astro';
+import Menu from '../components/MenuSection.astro';
+import Benefits from '../components/Benefits.astro';
+import HowItWorks from '../components/HowItWorks.astro';
+import Location from '../components/Location.astro';
+import FinalCta from '../components/FinalCta.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import FloatingWhatsApp from '../components/FloatingWhatsApp.astro';
+---
+
+<Layout>
+  <div class="min-h-screen bg-background text-foreground">
+    <SiteHeader client:load />
+    <main>
+      <Hero />
+      <Menu />
+      <Benefits />
+      <HowItWorks />
+      <Location />
+      <FinalCta />
+    </main>
+    <SiteFooter />
+    <FloatingWhatsApp />
+  </div>
+</Layout>
