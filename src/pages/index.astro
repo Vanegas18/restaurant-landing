@@ -4,6 +4,7 @@ import Layout from '../layouts/Layout.astro'
 import Header from '../components/Header.astro'
 import Hero from '../components/Hero.astro'
 import Footer from '../components/Footer.astro'
+import Delivery from '../components/Delivery.astro'
 import OrderApp, { type Photo } from '../components/order/OrderApp'
 import type { PhotoKey } from '../lib/menu'
 import la70 from '../assets/menu/la-70-doble.jpg'
@@ -23,10 +24,10 @@ const sources: Record<PhotoKey, [ImageMetadata, string]> = {
 
 const photos = {} as Record<PhotoKey, Photo>
 for (const [key, [img, alt]] of Object.entries(sources) as [PhotoKey, [ImageMetadata, string]][]) {
-  const widths = [400, 640, 900]
+  const widths = [240, 400, 640, 900]
   const variants = await Promise.all(widths.map((w) => getImage({ src: img, width: w, height: Math.round(w * 0.75), fit: 'cover', format: 'webp' })))
   photos[key] = {
-    src: variants[1].src,
+    src: variants[2].src,
     srcSet: variants.map((v, i) => `${v.src} ${widths[i]}w`).join(', '),
     width: 640,
     height: 480,
@@ -40,6 +41,7 @@ for (const [key, [img, alt]] of Object.entries(sources) as [PhotoKey, [ImageMeta
   <main>
     <Hero />
     <OrderApp client:load photos={photos} />
+    <Delivery />
   </main>
   <Footer />
 </Layout>

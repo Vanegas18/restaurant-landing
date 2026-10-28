@@ -118,18 +118,20 @@ export function Ticket({ c, idPrefix }: { c: Comanda; idPrefix: string }) {
         </p>
       )}
 
-      <a
-        href={empty ? undefined : href}
-        aria-disabled={empty}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={(e) => empty && e.preventDefault()}
-        className={`titular mt-4 flex h-14 items-center justify-center gap-2 border-2 border-carbon text-xl tracking-[0.04em] ${
-          empty ? 'cursor-not-allowed bg-transparent text-humo' : 'bg-mostaza text-carbon hover:-translate-y-0.5'
-        } transition-transform`}
-      >
-        Enviar comanda por WhatsApp
-      </a>
+      {empty ? (
+        <p className="titular mt-4 flex h-14 items-center justify-center border-2 border-dashed border-humo text-xl tracking-[0.04em] text-humo">
+          Agrega productos para enviar
+        </p>
+      ) : (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="titular mt-4 flex h-14 items-center justify-center gap-2 border-2 border-carbon bg-mostaza text-xl tracking-[0.04em] text-carbon transition-transform hover:-translate-y-0.5"
+        >
+          Enviar comanda por WhatsApp
+        </a>
+      )}
       <p className="mt-2 text-center text-[11px] text-humo">Te respondemos con el tiempo de entrega. Sin apps ni registro.</p>
     </div>
   )

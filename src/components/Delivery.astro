@@ -1,0 +1,84 @@
+---
+import { Picture } from 'astro:assets'
+import parrilla from '../assets/menu/parrilla.jpg'
+import { DELIVERY_ZONES, formatTicket } from '../lib/menu'
+import { HOURS_TABLE } from '../lib/hours'
+
+const TIMES: Record<string, string> = {
+  laureles: '25–35 min',
+  estadio: '25–35 min',
+  conquistadores: '30–40 min',
+  floresta: '35–45 min',
+  florida: '35–45 min',
+  belen: '40–50 min',
+  robledo: '45–55 min',
+}
+const zones = DELIVERY_ZONES.filter((z) => z.id !== 'recoger')
+---
+<section id="domicilios" aria-labelledby="domicilios-title" class="scroll-mt-16 border-t border-linea">
+  <div class="mx-auto max-w-7xl lg:grid lg:grid-cols-12 lg:px-10">
+    <div class="relative lg:col-span-5 lg:py-20">
+      <Picture
+        src={parrilla}
+        formats={['avif', 'webp']}
+        widths={[480, 800, 1000]}
+        sizes="(min-width: 1024px) 480px, 100vw"
+        alt="Carnes de hamburguesa sobre la parrilla con la llama encendida"
+        loading="lazy"
+        class="h-56 w-full object-cover sm:h-80 lg:sticky lg:top-24 lg:h-[620px]"
+      />
+    </div>
+
+    <div class="px-4 py-12 sm:px-6 lg:col-span-6 lg:col-start-7 lg:px-0 lg:py-20">
+      <h2 id="domicilios-title" class="titular text-6xl lg:text-8xl">Domicilios<br />y horario</h2>
+      <p class="mt-4 max-w-md text-[15px] leading-relaxed text-ceniza">
+        Salimos desde la 70, en Laureles. El costo del domicilio ya se suma solo en tu comanda.
+      </p>
+
+      <table class="mt-8 w-full text-sm">
+        <caption class="mb-2 text-left text-[11px] tracking-[0.14em] text-ceniza uppercase">Barrios y tiempos aproximados</caption>
+        <thead class="sr-only">
+          <tr><th scope="col">Barrio</th><th scope="col">Tiempo</th><th scope="col">Domicilio</th></tr>
+        </thead>
+        <tbody>
+          {zones.map((z) => (
+            <tr class="border-b border-dashed border-linea">
+              <th scope="row" class="py-3 text-left font-normal">{z.label}</th>
+              <td class="py-3 text-ceniza">{TIMES[z.id]}</td>
+              <td class="py-3 text-right tabular-nums">$ {formatTicket(z.fee)}</td>
+            </tr>
+          ))}
+          <tr>
+            <th scope="row" class="py-3 text-left font-normal">Recoges en el local</th>
+            <td class="py-3 text-ceniza">15–20 min</td>
+            <td class="py-3 text-right text-mostaza">Sin costo</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="mt-3 text-[12px] text-ceniza">¿Tu barrio no está? Escríbenos y te decimos si llegamos.</p>
+
+      <table class="mt-10 w-full text-sm">
+        <caption class="mb-2 text-left text-[11px] tracking-[0.14em] text-ceniza uppercase">Horario de cocina</caption>
+        <tbody>
+          {HOURS_TABLE.map((h, i) => (
+            <tr data-dias={i} class="border-b border-dashed border-linea">
+              <th scope="row" class="py-3 text-left font-normal">{h.days}</th>
+              <td class="py-3 text-right tabular-nums">{h.time}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Resalta la fila de hoy (hora de Colombia)
+  const day = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Bogota' })).getDay()
+  const row = day === 0 ? 2 : day >= 5 ? 1 : 0
+  const el = document.querySelector<HTMLElement>(`[data-dias="${row}"]`)
+  if (el) {
+    el.classList.add('text-mostaza')
+    el.querySelector('th')?.insertAdjacentHTML('beforeend', ' <span class="text-[11px] tracking-wider uppercase">· hoy</span>')
+  }
+</script>

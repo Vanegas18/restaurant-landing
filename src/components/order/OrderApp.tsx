@@ -17,7 +17,7 @@ function PhotoCard({ item, photo, c, wide }: { item: MenuItem; photo: Photo; c: 
         <img
           src={photo.src}
           srcSet={photo.srcSet}
-          sizes={wide ? '(min-width: 1024px) 420px, (min-width: 640px) 50vw, 100vw' : '(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw'}
+          sizes={wide ? '(min-width: 1024px) 420px, (min-width: 640px) 50vw, 100vw' : '(min-width: 1024px) 400px, (min-width: 640px) 50vw, 120px'}
           width={photo.width}
           height={photo.height}
           alt={photo.alt}
@@ -141,7 +141,6 @@ export default function OrderApp({ photos }: { photos: Record<PhotoKey, Photo> }
           </button>
         </div>
       )}
-      {c.count > 0 && <div aria-hidden="true" className="h-20 lg:hidden" />}
 
       <dialog
         ref={dialog}
