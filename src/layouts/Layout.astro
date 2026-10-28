@@ -1,37 +1,28 @@
 ---
-import '../styles/global.css';
+import '../styles/global.css'
 
 interface Props {
-  title?: string;
-  description?: string;
+  title?: string
+  description?: string
 }
 
 const {
-  title = 'Sabor Express — Pide tu comida favorita por WhatsApp',
-  description = 'Hamburguesas, pizza y más. Rápido, fácil y directo a tu WhatsApp. Pide ahora y recibe tu comida en minutos.',
-} = Astro.props;
-
-const isProd = import.meta.env.PROD;
+  title = 'Carbón — Hamburguesas al carbón a domicilio en Laureles, Medellín',
+  description = 'Hamburguesas y perros al carbón con domicilio en Laureles, Estadio, Conquistadores y Belén. Arma tu comanda y pídela por WhatsApp.',
+} = Astro.props
 ---
 
 <!doctype html>
-<html lang="es" class="dark">
+<html lang="es-CO">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="generator" content="Astro" />
+    <meta name="theme-color" content="#1b1a17" />
     <title>{title}</title>
-
-    <link rel="icon" href="/icon-light-32x32.png" media="(prefers-color-scheme: light)" />
-    <link rel="icon" href="/icon-dark-32x32.png" media="(prefers-color-scheme: dark)" />
-    <link rel="icon" href="/icon.png" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-icon.png" />
   </head>
-  <body class="font-sans antialiased bg-background text-foreground">
+  <body>
+    <a href="#menu" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-mostaza focus:p-3 focus:text-carbon">Saltar al menú</a>
     <slot />
-    {isProd && (
-      <script defer src="https://cdn.vercel-insights.com/v1/script.js" data-endpoint="/_vercel/insights/vitals"></script>
-    )}
   </body>
 </html>

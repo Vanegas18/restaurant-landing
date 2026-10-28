@@ -1,0 +1,33 @@
+---
+import WhatsAppIcon from './WhatsAppIcon.astro'
+import { GENERAL_MESSAGE } from '../lib/whatsapp'
+---
+<header class="sticky top-0 z-40 border-b border-linea bg-carbon">
+  <nav aria-label="Principal" class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-10">
+    <a href="#inicio" class="flex min-h-11 items-center titular text-[1.75rem] tracking-[0.04em]" aria-label="Carbón, inicio">Carbón</a>
+    <ul class="hidden items-center gap-8 text-sm md:flex">
+      <li><a href="#menu" class="inline-flex min-h-11 items-center uppercase tracking-wider hover:text-mostaza">Menú</a></li>
+      <li><a href="#domicilios" class="inline-flex min-h-11 items-center uppercase tracking-wider hover:text-mostaza">Domicilios y horario</a></li>
+    </ul>
+    <div class="flex items-center gap-2">
+      <p data-estado class="border border-ceniza px-2 py-1 text-[11px] leading-none tracking-wide text-ceniza uppercase" aria-live="polite">
+        Desde las 12 m.
+      </p>
+      <a href={GENERAL_MESSAGE} target="_blank" rel="noopener noreferrer" aria-label="Escribir a Carbón por WhatsApp" class="flex size-11 items-center justify-center hover:text-mostaza">
+        <WhatsAppIcon class="size-5" />
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  import { openStatus } from '../lib/hours'
+  // El estado se calcula en el navegador con la hora real de Colombia
+  const el = document.querySelector<HTMLElement>('[data-estado]')
+  if (el) {
+    const s = openStatus()
+    el.textContent = s.label
+    el.classList.toggle('border-mostaza', s.open)
+    el.classList.toggle('text-mostaza', s.open)
+  }
+</script>

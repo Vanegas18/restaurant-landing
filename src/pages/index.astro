@@ -1,28 +1,45 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import SiteHeader from '../components/SiteHeader.tsx';
-import Hero from '../components/Hero.astro';
-import Menu from '../components/MenuSection.astro';
-import Benefits from '../components/Benefits.astro';
-import HowItWorks from '../components/HowItWorks.astro';
-import Location from '../components/Location.astro';
-import FinalCta from '../components/FinalCta.astro';
-import SiteFooter from '../components/SiteFooter.astro';
-import FloatingWhatsApp from '../components/FloatingWhatsApp.astro';
+import { getImage } from 'astro:assets'
+import Layout from '../layouts/Layout.astro'
+import Header from '../components/Header.astro'
+import Hero from '../components/Hero.astro'
+import Footer from '../components/Footer.astro'
+import OrderApp, { type Photo } from '../components/order/OrderApp'
+import type { PhotoKey } from '../lib/menu'
+import la70 from '../assets/menu/la-70-doble.jpg'
+import clasica from '../assets/menu/clasica.jpg'
+import pollo from '../assets/menu/pollo-crocante.jpg'
+import papas from '../assets/menu/papas.jpg'
+import perro from '../assets/menu/perro.jpg'
+
+// Fotos optimizadas en build (WebP, 3 anchos) y pasadas a la isla de React
+const sources: Record<PhotoKey, [ImageMetadata, string]> = {
+  'la-70-doble': [la70, 'Hamburguesa doble con cheddar fundido'],
+  clasica: [clasica, 'Hamburguesa clásica con lechuga, tomate y cebolla morada'],
+  'pollo-crocante': [pollo, 'Sándwich de pollo apanado con pepinillos'],
+  papas: [papas, 'Papas fritas rústicas servidas en papel'],
+  perro: [perro, 'Perro caliente con tomate, jalapeño y mostaza'],
+}
+
+const photos = {} as Record<PhotoKey, Photo>
+for (const [key, [img, alt]] of Object.entries(sources) as [PhotoKey, [ImageMetadata, string]][]) {
+  const widths = [400, 640, 900]
+  const variants = await Promise.all(widths.map((w) => getImage({ src: img, width: w, height: Math.round(w * 0.75), fit: 'cover', format: 'webp' })))
+  photos[key] = {
+    src: variants[1].src,
+    srcSet: variants.map((v, i) => `${v.src} ${widths[i]}w`).join(', '),
+    width: 640,
+    height: 480,
+    alt,
+  }
+}
 ---
 
 <Layout>
-  <div class="min-h-screen bg-background text-foreground">
-    <SiteHeader client:load />
-    <main>
-      <Hero />
-      <Menu />
-      <Benefits />
-      <HowItWorks />
-      <Location />
-      <FinalCta />
-    </main>
-    <SiteFooter />
-    <FloatingWhatsApp />
-  </div>
+  <Header />
+  <main>
+    <Hero />
+    <OrderApp client:load photos={photos} />
+  </main>
+  <Footer />
 </Layout>
